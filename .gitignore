@@ -1,0 +1,13 @@
+# Documents de candidature produits dans ce dossier - ne jamais publier
+Claude outputs/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Build Maven a la racine du depot
+target/
+
+# Fichiers systeme
+Thumbs.db
+.DS_Store
