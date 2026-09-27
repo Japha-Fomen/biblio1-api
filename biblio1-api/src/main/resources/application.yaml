@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: biblio1-api
+  profiles:
+    active: "test"
+server:
+    port: 8091
+

@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+
+server:
+  port: 0
+
+biblio1:
+  emprunt:
+    maxiSimultanes: 2
+    DureeJours: 30
+
+  enregistrementLivre:
+    nombreExemplaire: 1
+
+  penalite:
+    etudiant: 1.0
+    standard: 2.0
+Logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE
