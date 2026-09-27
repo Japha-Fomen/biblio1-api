@@ -255,10 +255,6 @@ La couverture par tests automatisés JUnit est le prochain chantier ; seul le te
 Points identifiés et assumés à ce stade, traités dans les prochaines étapes :
 
 - **Pas de gestionnaire d'exceptions global.** `RessourceIntrouvableException` et `ConflitMetierException` existent mais ne sont pas encore interceptées par un `@RestControllerAdvice`, donc certains cas d'erreur remontent en `500` au lieu de `404` ou `409`.
-- **Nommage d'URL incohérent** entre le singulier (`/api/auteur`, `/api/membre`) et le pluriel (`/api/livres`, `/api/emprunts`). À uniformiser au pluriel.
-- **Un chemin dupliqué** subsiste sur le comptage des emprunts d'un membre (`/api/membre/api/membre/{id}/...`), dû à un préfixe répété entre l'annotation de classe et celle de méthode.
-- **Profil actif par défaut.** `application.yaml` active le profil `test`, qui force un port aléatoire. Lancer explicitement le profil `dev` pour travailler sur le port 8091.
-- **Paramètres métier définis dans le seul profil `test`.** À reporter dans `dev` et `prod`.
 - **Pas de couche de sécurité** : ni authentification ni autorisation. Prévu après l'étape 2.
 - **Pas de documentation OpenAPI générée.** L'ajout de springdoc est prévu.
 
