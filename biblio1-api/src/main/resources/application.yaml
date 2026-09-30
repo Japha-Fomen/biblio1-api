@@ -2,7 +2,7 @@ spring:
   application:
     name: biblio1-api
   profiles:
-    active: "prod"
+    active: "test"
 server:
     port: 8091
 
