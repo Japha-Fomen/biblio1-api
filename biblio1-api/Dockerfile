@@ -11,11 +11,11 @@ WORKDIR /app
 
 # On copie d'abord le pom seul : tant qu'il ne change pas,
 # Docker reutilise le telechargement des dependances (cache).
-COPY pom.xml .
+COPY biblio1-api/pom.xml .
 RUN mvn -B dependency:go-offline
 
 # Puis le code source, qui change beaucoup plus souvent.
-COPY src ./src
+COPY biblio1-api/src ./src
 
 # On construit le JAR executable. Retirer -DskipTests
 # le jour ou les tests JUnit doivent tourner a la construction.
