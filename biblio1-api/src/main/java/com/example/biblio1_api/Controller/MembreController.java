@@ -16,7 +16,7 @@ import org.springframework.web.servlet.function.EntityResponse;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/api/membre")
+@RequestMapping("/api/membres")
 public class MembreController {
     private final MembreService service;
     public MembreController(MembreService service) {
@@ -41,7 +41,7 @@ public int numbreEmpruntMembre(@PathVariable Long id){
 @PostMapping
     ResponseEntity<MembreResponse> cree(@Valid @RequestBody MembreCreationRequest request){
     Membre membre= service.creerMembre(request);
-    URI location=java.net.URI.create("/api/membre/"+membre.getId());
+    URI location=java.net.URI.create("/api/membres/"+membre.getId());
     MembreResponse response= new MembreResponse(membre.getEmail(), membre.getPrenom(), membre.getNom(),
             membre.isActif());
     return ResponseEntity.created(location).body(response);

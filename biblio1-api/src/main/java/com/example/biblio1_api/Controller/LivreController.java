@@ -1,9 +1,12 @@
 package com.example.biblio1_api.Controller;
 
+import com.example.biblio1_api.Dto.CritereRecherche;
 import com.example.biblio1_api.Dto.LivreCreationRequest;
 import com.example.biblio1_api.Dto.LivreResponse;
 import com.example.biblio1_api.Dto.LivreUpdateRequest;
+import com.example.biblio1_api.Entity.Genre;
 import com.example.biblio1_api.Service.LivreService;
+import com.example.biblio1_api.Service.RechercheLivreService;
 import jakarta.validation.Valid;
 import org.aspectj.apache.bcel.classfile.Module;
 import org.springframework.data.domain.Page;
@@ -21,9 +24,11 @@ import java.net.URI;
 @RequestMapping("/api/livres")
 public class LivreController {
     private final LivreService service;
+    private final RechercheLivreService rechercheService;
 
-    public LivreController(LivreService service) {
+    public LivreController(LivreService service, RechercheLivreService rechercheService) {
         this.service = service;
+        this.rechercheService = rechercheService;
     }
     @GetMapping
     public Page<LivreResponse> lister(
@@ -42,6 +47,14 @@ public class LivreController {
         @GetMapping("/isbn/{isbn}")
     public LivreResponse parIsbn(@PathVariable String isbn){
         return service.parIsbn(isbn);
+        }
+
+        @GetMapping("/recherche")
+        Page<LivreResponse> recherche(@RequestParam(required = false) String titre,@RequestParam(required = false) Genre genre,
+                                      @RequestParam(required = false) Integer anneeMin,@RequestParam(required = false)String nationalite,
+                                      @PageableDefault(size = 20) Pageable pageable){
+            CritereRecherche critere= new CritereRecherche(titre,genre,anneeMin,nationalite);
+            return rechercheService.rechercheLivre(critere,pageable);
         }
         @PostMapping
     public ResponseEntity<LivreResponse> cree(

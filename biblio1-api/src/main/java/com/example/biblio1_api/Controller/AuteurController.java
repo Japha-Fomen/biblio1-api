@@ -18,7 +18,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/api/auteur")
+@RequestMapping("/api/auteurs")
 public class AuteurController {
     private final AuteurService service;
 
@@ -44,7 +44,7 @@ public class AuteurController {
     @PostMapping
     ResponseEntity<AuteurResponse> cree(@Valid @RequestBody AuteurCreationRequest request, UriComponentsBuilder uri){
         Auteur auteur= service.cree(request);
-        URI location = uri.path("/api/auteur/{id}").buildAndExpand(auteur.getId()).toUri();
+        URI location = uri.path("/api/auteurs/{id}").buildAndExpand(auteur.getId()).toUri();
         AuteurResponse response=new AuteurResponse(auteur.getCodeAuteur(), auteur.getNom(),
                                                     auteur.getPrenom(), auteur.getNationalite());
         return  ResponseEntity.created(location).body(response);
