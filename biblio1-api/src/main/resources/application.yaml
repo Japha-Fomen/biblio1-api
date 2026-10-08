@@ -3,6 +3,17 @@ spring:
     name: biblio1-api
   profiles:
     active: "test"
-server:
-    port: 8091
 
+
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/librairie?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: Japha@10
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQLDialect
+server:
+  port: 8091
