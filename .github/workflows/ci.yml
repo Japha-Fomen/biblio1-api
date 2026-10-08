@@ -1,0 +1,39 @@
+name: CI
+
+# Se declenche a chaque poussee sur main et sur chaque pull request.
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: Compilation et tests
+    runs-on: ubuntu-latest
+
+    # Le module Maven est dans un sous-dossier du depot.
+    defaults:
+      run:
+        working-directory: biblio1-api
+
+    steps:
+      - name: Recuperer le code
+        uses: actions/checkout@v4
+
+      - name: Installer le JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Compiler et executer les tests
+        run: mvn -B clean verify
+
+      - name: Conserver le JAR produit
+        uses: actions/upload-artifact@v4
+        with:
+          name: biblio1-api-jar
+          path: biblio1-api/target/*.jar
+          if-no-files-found: error
