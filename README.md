@@ -1,4 +1,6 @@
 # biblio1-api
+[![CI](https://github.com/Japha-Fomen/biblio1-api/actions/workflows/ci.yml/badge.svg)](https://github.com/Japha-Fomen/biblio1-api/actions/workflows/ci.yml)
+deployment link: https://biblio1-api.onrender.com
 
 API REST de gestion de bibliothèque écrite en **Java 21** et **Spring Boot 4.1**.
 
