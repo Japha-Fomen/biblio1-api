@@ -1,0 +1,61 @@
+-- ===== Tables =====
+CREATE TABLE auteur (
+    id              BIGINT       NOT NULL AUTO_INCREMENT,
+    code_auteur     VARCHAR(8)   NOT NULL,
+    nom             VARCHAR(100) NOT NULL,
+    prenom          VARCHAR(100) NOT NULL,
+    nationalite     VARCHAR(60)  NOT NULL,
+    date_naissance  DATE         NOT NULL,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB;
+
+CREATE TABLE membre (
+    id                BIGINT       NOT NULL AUTO_INCREMENT,
+    nom               VARCHAR(100) NOT NULL,
+    prenom            VARCHAR(100),
+    email             VARCHAR(180) NOT NULL,
+    date_inscription  DATE         NOT NULL,
+    actif             BIT          NOT NULL,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB;
+
+CREATE TABLE livre (
+    id                  BIGINT       NOT NULL AUTO_INCREMENT,
+    isbn                VARCHAR(13)  NOT NULL,
+    titre               VARCHAR(200) NOT NULL,
+    genre               ENUM('BIOGRAPHIE','ESSAI','JEUNESSE','POESIE','POLICIER',
+                             'ROMAN','SCIENCE_FICTION','THEATRE') NOT NULL,
+    annee_publication   INTEGER,
+    nombre_exemplaires  INTEGER      NOT NULL,
+    auteur_id           BIGINT,
+    cree_le             DATETIME(6)  NOT NULL,
+    modifie_le          DATETIME(6)  NOT NULL,
+    version             BIGINT       NOT NULL,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB;
+
+CREATE TABLE emprunt (
+    id                     BIGINT NOT NULL AUTO_INCREMENT,
+    livre_id               BIGINT NOT NULL,
+    membre_id              BIGINT NOT NULL,
+    date_emprunt           DATE   NOT NULL,
+    date_retour_prevue     DATE   NOT NULL,
+    date_retour_effective  DATE,
+    statut                 ENUM('EN_COURS','PERDU','RETOURNE','RETOURNE_EN_RETARD') NOT NULL,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB;
+
+-- ===== Index =====
+CREATE INDEX idx_auteur_nom      ON auteur (nom);
+CREATE INDEX idx_emprunt_membre  ON emprunt (membre_id);
+CREATE INDEX idx_emprunt_statut  ON emprunt (statut);
+
+-- ===== Contraintes d'unicité =====
+ALTER TABLE auteur ADD CONSTRAINT uk_auteur_code  UNIQUE (code_auteur);
+ALTER TABLE livre  ADD CONSTRAINT uk_livre_isbn   UNIQUE (isbn);
+ALTER TABLE membre ADD CONSTRAINT uk_membre_email UNIQUE (email);
+
+-- ===== Clés étrangères =====
+ALTER TABLE livre   ADD CONSTRAINT fk_livre_auteur  FOREIGN KEY (auteur_id) REFERENCES auteur (id);
+ALTER TABLE emprunt ADD CONSTRAINT fk_emprunt_livre  FOREIGN KEY (livre_id)  REFERENCES livre (id);
+ALTER TABLE emprunt ADD CONSTRAINT fk_emprunt_membre FOREIGN KEY (membre_id) REFERENCES membre (id);
