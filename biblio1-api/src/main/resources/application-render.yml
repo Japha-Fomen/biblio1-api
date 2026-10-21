@@ -3,17 +3,19 @@ spring:
     url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
     username: ${DATABASE_USERNAME}
     password: ${DATABASE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
   jpa:
-    hibernate:
-      ddl-auto: validate
-    open-in-view: false
-  h2:
-    console:
-      enabled: false
+        hibernate:
+          ddl-auto: validate
+        open-in-view: false
+h2:
+        console:
+          enabled: false
 
 server:
-  port: ${PORT:8080}
+      port: ${PORT:8080}
 
 logging:
-  level:
-    root: INFO
+      level:
+        root: INFO
