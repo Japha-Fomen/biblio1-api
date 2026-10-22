@@ -17,6 +17,22 @@ jobs:
       run:
         working-directory: biblio1-api
 
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: biblio1_db
+          MYSQL_USER: japha
+          MYSQL_PASSWORD: japha
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
     steps:
       - name: Recuperer le code
         uses: actions/checkout@v4
