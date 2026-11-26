@@ -39,7 +39,7 @@ public int numbreEmpruntMembre(@PathVariable Long id){
         return service.compterEmprunts(id);
 }
 @PostMapping
-    ResponseEntity<MembreResponse> cree(@Valid @RequestBody MembreCreationRequest request){
+    ResponseEntity<MembreResponse> creer(@Valid @RequestBody MembreCreationRequest request){
     Membre membre= service.creerMembre(request);
     URI location=java.net.URI.create("/api/membres/"+membre.getId());
     MembreResponse response= new MembreResponse(membre.getEmail(), membre.getPrenom(), membre.getNom(),
@@ -52,7 +52,7 @@ public int numbreEmpruntMembre(@PathVariable Long id){
 }
 @DeleteMapping("/{id}")
 @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id){
+    public void supprimer(@PathVariable Long id){
         service.deleteMembre(id);
 }
 }

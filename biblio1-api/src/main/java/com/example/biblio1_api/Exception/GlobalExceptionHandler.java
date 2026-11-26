@@ -39,6 +39,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return reponse(HttpStatus.NOT_FOUND, ex.getMessage(), requete.getRequestURI());
     }
 
+    /** Requête syntaxiquement correcte mais incomplète ou incohérente. */
+    @ExceptionHandler(RequeteInvalideException.class)
+    public ResponseEntity<ErrorResponse> handleRequeteInvalide(RequeteInvalideException ex,
+                                                               HttpServletRequest requete) {
+        return reponse(HttpStatus.BAD_REQUEST, ex.getMessage(), requete.getRequestURI());
+    }
+
     /** Règle métier violée : plafond d'emprunts, exemplaire indisponible, retour déjà effectué. */
     @ExceptionHandler(ConflitMetierException.class)
     public ResponseEntity<ErrorResponse> handleConflitMetier(ConflitMetierException ex,

@@ -4,6 +4,9 @@ public class RessourceIntrouvableException extends RuntimeException{
     public RessourceIntrouvableException(String ressource,Long id){
     super(ressource + " avec id " + id + " introuvable");
 }
+    public RessourceIntrouvableException(String ressource,String email){
+        super(ressource + " avec email " + email + " introuvable");
+    }
 
 public RessourceIntrouvableException(String message) {
     super(message);
