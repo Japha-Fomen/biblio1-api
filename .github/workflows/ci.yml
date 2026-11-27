@@ -46,6 +46,10 @@ jobs:
 
       - name: Compiler et executer les tests
         run: mvn -B clean verify
+        env:
+          DB_URL: jdbc:mysql://127.0.0.1:3306/biblio1_db
+          DB_USERNAME: japha
+          DB_PASSWORD: japha
 
       - name: Conserver le JAR produit
         uses: actions/upload-artifact@v4
