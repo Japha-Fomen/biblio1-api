@@ -1,0 +1,18 @@
+# Documents de candidature, ne doivent jamais quitter la machine
+Claude outputs/
+
+# Historique git, volumineux et inutile a la construction
+.git/
+.github/
+
+# Environnement de developpement
+.idea/
+*.iml
+
+# Produits de compilation locaux
+target/
+biblio1-api/target/
+
+# Secrets locaux
+.env
+admin.json

@@ -20,6 +20,9 @@ public class Membre {
     private LocalDate dateInscription= LocalDate.now();
     @Column(nullable = false)
     private boolean actif=true;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "utilisateur_id", unique = true)
+    private Utilisateur utilisateur;
 
     //constructeurs
 

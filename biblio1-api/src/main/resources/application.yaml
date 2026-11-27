@@ -13,6 +13,26 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
+
+    server:
+      port: 0
+
+    biblio1:
+      emprunt:
+        maxiSimultanes: 2
+        DureeJours: 30
+
+      enregistrementLivre:
+        nombreExemplaire: 1
+
+      penalite:
+        etudiant: 1.0
+        standard: 2.0
+
+    logging:
+      level:
+        org.hibernate.SQL: DEBUG
+        org.hibernate.orm.jdbc.bind: TRACE
 server:
   port: 8091

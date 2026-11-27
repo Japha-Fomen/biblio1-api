@@ -11,3 +11,5 @@ target/
 # Fichiers systeme
 Thumbs.db
 .DS_Store
+#ignore test admin
+admin.json
