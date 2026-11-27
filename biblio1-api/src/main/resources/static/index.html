@@ -26,80 +26,255 @@
   * { box-sizing: border-box; }
   body {
     margin: 0;
-    padding: 48px 16px 64px;
+    padding: 40px 16px 64px;
     background: var(--bg);
     color: var(--fg);
     font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   }
-  main { max-width: 760px; margin: 0 auto; }
+  main { max-width: 780px; margin: 0 auto; }
+
+  /* Bascule de langue : une seule des deux versions est affichee. */
+  body[data-lang="en"] .fr { display: none; }
+  body[data-lang="fr"] .en { display: none; }
+
+  .barre { display: flex; justify-content: flex-end; margin-bottom: 18px; }
+  #btn-langue {
+    font: inherit; font-size: .85rem; font-weight: 600;
+    color: var(--accent); background: transparent;
+    border: 1px solid var(--line); border-radius: 999px;
+    padding: 5px 14px; cursor: pointer;
+  }
+  #btn-langue:hover { border-color: var(--accent); }
+
   h1 { font-size: 1.9rem; margin: 0 0 4px; letter-spacing: -.4px; }
   .sub { color: var(--muted); margin: 0 0 8px; }
-  .stack { color: var(--accent); font-weight: 600; font-size: .95rem; margin: 0 0 28px; }
+  .stack { color: var(--accent); font-weight: 600; font-size: .95rem; margin: 0 0 24px; }
   h2 {
     font-size: .82rem; text-transform: uppercase; letter-spacing: 1.4px;
     color: var(--accent); margin: 34px 0 12px; padding-bottom: 6px;
     border-bottom: 1px solid var(--line);
   }
+  h3 { font-size: .95rem; margin: 22px 0 6px; font-weight: 700; }
+  h3 .role {
+    font-weight: 600; font-size: .78rem; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 1px; margin-left: 8px;
+  }
   table { width: 100%; border-collapse: collapse; font-size: .92rem; }
   td { padding: 7px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
   td.m { width: 72px; font-weight: 700; color: var(--accent); white-space: nowrap; }
   td.p { width: 44%; }
+  td.d { color: var(--muted); }
   code {
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     font-size: .88rem; background: var(--code-bg); padding: 2px 6px; border-radius: 4px;
   }
-  td.d { color: var(--muted); }
   a { color: var(--accent); }
   .note {
-    margin-top: 32px; padding: 12px 14px; background: var(--code-bg);
+    margin-top: 24px; padding: 12px 14px; background: var(--code-bg);
     border-left: 3px solid var(--accent); border-radius: 0 4px 4px 0;
     font-size: .9rem; color: var(--muted);
   }
-  footer { margin-top: 36px; font-size: .88rem; color: var(--muted); }
+  ul { padding-left: 20px; margin: 8px 0; }
+  li { margin-bottom: 5px; }
+  footer { margin-top: 40px; padding-top: 14px; border-top: 1px solid var(--line);
+           font-size: .88rem; color: var(--muted); }
   @media (max-width: 560px) {
     td.p { width: auto; }
     td.d { display: none; }
   }
 </style>
 </head>
-<body>
+<body data-lang="fr">
 <main>
 
-  <h1>biblio1-api</h1>
-  <p class="sub">API REST de gestion de bibliothèque — auteurs, livres, membres et emprunts.</p>
-  <p class="stack">Java 21 · Spring Boot 4 · Spring Data JPA · Docker · Render</p>
+  <div class="barre"><button id="btn-langue" type="button">English</button></div>
 
-  <h2>Points d'entrée</h2>
+  <h1>biblio1-api</h1>
+  <p class="sub">
+    <span class="fr">API REST de gestion de bibliothèque&nbsp;: auteurs, livres, membres, emprunts et comptes utilisateurs.</span>
+    <span class="en">Library management REST API: authors, books, members, loans and user accounts.</span>
+  </p>
+  <p class="stack">Java 21 · Spring Boot 4 · Spring Security · Spring Data JPA · Flyway · PostgreSQL · Docker · Google Cloud Run</p>
+
+  <h2><span class="fr">Points d&rsquo;entrée</span><span class="en">Endpoints</span></h2>
+
+  <h3>
+    <span class="fr">Accès libre<span class="role">sans compte</span></span>
+    <span class="en">Open access<span class="role">no account</span></span>
+  </h3>
   <table>
-    <tr><td class="m">GET</td><td class="p"><code>/actuator/health</code></td><td class="d">État du service</td></tr>
-    <tr><td class="m">GET</td><td class="p"><code>/api/livres?page=0&amp;size=10</code></td><td class="d">Liste paginée des livres</td></tr>
-    <tr><td class="m">GET</td><td class="p"><code>/api/livres/{id}</code></td><td class="d">Détail d'un livre</td></tr>
-    <tr><td class="m">GET</td><td class="p"><code>/api/livres/isbn/{isbn}</code></td><td class="d">Recherche par ISBN</td></tr>
-    <tr><td class="m">POST</td><td class="p"><code>/api/livres</code></td><td class="d">Création d'un livre</td></tr>
-    <tr><td class="m">GET</td><td class="p"><code>/api/auteur</code></td><td class="d">Liste paginée des auteurs</td></tr>
-    <tr><td class="m">GET</td><td class="p"><code>/api/membre</code></td><td class="d">Liste paginée des membres</td></tr>
-    <tr><td class="m">POST</td><td class="p"><code>/api/emprunts</code></td><td class="d">Enregistrement d'un emprunt</td></tr>
-    <tr><td class="m">POST</td><td class="p"><code>/api/emprunts/{id}/retour</code></td><td class="d">Retour d'un livre</td></tr>
+    <tr><td class="m">GET</td><td class="p"><code>/actuator/health</code></td>
+        <td class="d"><span class="fr">État du service</span><span class="en">Service health</span></td></tr>
+    <tr><td class="m">GET</td><td class="p"><a href="/api/livres?page=0&amp;size=10"><code>/api/livres</code></a></td>
+        <td class="d"><span class="fr">Liste paginée et triée, filtrable par titre</span><span class="en">Paginated and sorted list, filterable by title</span></td></tr>
+    <tr><td class="m">GET</td><td class="p"><code>/api/livres/{id}</code></td>
+        <td class="d"><span class="fr">Détail d&rsquo;un livre</span><span class="en">A single book</span></td></tr>
+    <tr><td class="m">GET</td><td class="p"><code>/api/livres/isbn/{isbn}</code></td>
+        <td class="d"><span class="fr">Recherche par ISBN</span><span class="en">Lookup by ISBN</span></td></tr>
+    <tr><td class="m">GET</td><td class="p"><a href="/api/livres/recherche?genre=ESSAI"><code>/api/livres/recherche</code></a></td>
+        <td class="d"><span class="fr">Recherche par titre, genre, année minimale et nationalité de l&rsquo;auteur</span><span class="en">Search by title, genre, earliest year and author nationality</span></td></tr>
+    <tr><td class="m">GET</td><td class="p"><a href="/api/auteurs"><code>/api/auteurs</code></a></td>
+        <td class="d"><span class="fr">Liste paginée des auteurs</span><span class="en">Paginated list of authors</span></td></tr>
+    <tr><td class="m">GET</td><td class="p"><code>/api/auteurs/par-livre/{livreId}</code></td>
+        <td class="d"><span class="fr">Auteur d&rsquo;un livre donné</span><span class="en">Author of a given book</span></td></tr>
+    <tr><td class="m">POST</td><td class="p"><code>/api/utilisateurs/inscriptions</code></td>
+        <td class="d"><span class="fr">Création d&rsquo;un compte, rôle lecteur attribué</span><span class="en">Account creation, reader role granted</span></td></tr>
   </table>
 
-  <div class="note">
-    Service hébergé sur un plan gratuit : après une période d'inactivité, le premier appel
-    peut prendre jusqu'à une minute, le temps que l'instance redémarre. La base de données
-    est en mémoire et repart vide à chaque redémarrage.
+  <h3>
+    <span class="fr">Compte requis<span class="role">rôle lecteur</span></span>
+    <span class="en">Account required<span class="role">reader role</span></span>
+  </h3>
+  <table>
+    <tr><td class="m">GET</td><td class="p"><code>/api/utilisateurs/{id}</code></td>
+        <td class="d"><span class="fr">Fiche d&rsquo;un compte</span><span class="en">A user account</span></td></tr>
+    <tr><td class="m">PATCH</td><td class="p"><code>/api/utilisateurs/{id}</code></td>
+        <td class="d"><span class="fr">Mise à jour, changement de mot de passe avec vérification de l&rsquo;ancien</span><span class="en">Update, password change verified against the current one</span></td></tr>
+    <tr><td class="m">POST</td><td class="p"><code>/api/emprunts</code></td>
+        <td class="d"><span class="fr">Enregistrement d&rsquo;un emprunt</span><span class="en">Record a loan</span></td></tr>
+    <tr><td class="m">GET</td><td class="p"><code>/api/emprunts/{id}/emprunts</code></td>
+        <td class="d"><span class="fr">Emprunts en cours</span><span class="en">Current loans</span></td></tr>
+  </table>
+
+  <h3>
+    <span class="fr">Gestion de la bibliothèque<span class="role">rôle bibliothécaire</span></span>
+    <span class="en">Library management<span class="role">librarian role</span></span>
+  </h3>
+  <table>
+    <tr><td class="m">POST</td><td class="p"><code>/api/livres</code></td>
+        <td class="d"><span class="fr">Ajout d&rsquo;un livre</span><span class="en">Add a book</span></td></tr>
+    <tr><td class="m">PATCH</td><td class="p"><code>/api/livres/{id}</code></td>
+        <td class="d"><span class="fr">Mise à jour partielle</span><span class="en">Partial update</span></td></tr>
+    <tr><td class="m">DELETE</td><td class="p"><code>/api/livres/{id}</code></td>
+        <td class="d"><span class="fr">Retrait d&rsquo;un livre</span><span class="en">Remove a book</span></td></tr>
+    <tr><td class="m">POST</td><td class="p"><code>/api/auteurs</code></td>
+        <td class="d"><span class="fr">Ajout d&rsquo;un auteur</span><span class="en">Add an author</span></td></tr>
+    <tr><td class="m">GET</td><td class="p"><code>/api/membres</code></td>
+        <td class="d"><span class="fr">Liste des membres</span><span class="en">Member list</span></td></tr>
+    <tr><td class="m">POST</td><td class="p"><code>/api/membres</code></td>
+        <td class="d"><span class="fr">Inscription d&rsquo;un membre</span><span class="en">Register a member</span></td></tr>
+    <tr><td class="m">GET</td><td class="p"><code>/api/membres/{id}/emprunts/nombre</code></td>
+        <td class="d"><span class="fr">Nombre d&rsquo;emprunts en cours</span><span class="en">Number of current loans</span></td></tr>
+    <tr><td class="m">POST</td><td class="p"><code>/api/emprunts/{id}/retour</code></td>
+        <td class="d"><span class="fr">Constat du retour d&rsquo;un article</span><span class="en">Record the return of an item</span></td></tr>
+  </table>
+
+  <h3>
+    <span class="fr">Administration<span class="role">rôle administrateur</span></span>
+    <span class="en">Administration<span class="role">administrator role</span></span>
+  </h3>
+  <table>
+    <tr><td class="m">GET</td><td class="p"><code>/api/utilisateurs</code></td>
+        <td class="d"><span class="fr">Annuaire des comptes</span><span class="en">Account directory</span></td></tr>
+    <tr><td class="m">GET</td><td class="p"><code>/api/utilisateurs/par-role</code></td>
+        <td class="d"><span class="fr">Comptes filtrés par rôle</span><span class="en">Accounts filtered by role</span></td></tr>
+    <tr><td class="m">POST</td><td class="p"><code>/api/utilisateurs/{id}/roles/{role}</code></td>
+        <td class="d"><span class="fr">Attribution d&rsquo;un rôle</span><span class="en">Grant a role</span></td></tr>
+    <tr><td class="m">DELETE</td><td class="p"><code>/api/utilisateurs/{id}/roles/{role}</code></td>
+        <td class="d"><span class="fr">Retrait d&rsquo;un rôle</span><span class="en">Revoke a role</span></td></tr>
+  </table>
+
+  <h2><span class="fr">Sécurité</span><span class="en">Security</span></h2>
+  <div class="fr">
+    <p>
+      Authentification HTTP Basic sans session, mots de passe hachés en BCrypt, autorisation par
+      rôles appliquée route par route sur trois niveaux. L&rsquo;ordre des règles compte&nbsp;: les
+      plus spécifiques passent avant les plus larges, faute de quoi une règle générale exposerait
+      une ressource protégée. L&rsquo;inscription est publique et n&rsquo;accorde que le rôle lecteur.
+      L&rsquo;attribution des rôles est réservée à l&rsquo;administrateur, ce qui empêche un
+      bibliothécaire de se promouvoir lui-même.
+    </p>
+  </div>
+  <div class="en">
+    <p>
+      Stateless HTTP Basic authentication, BCrypt password hashing, and role based authorization
+      applied route by route across three levels. Rule order matters: the most specific rules come
+      before the broader ones, otherwise a general rule would expose a protected resource.
+      Registration is public and grants the reader role only. Role assignment is restricted to
+      administrators, which prevents a librarian from promoting themselves.
+    </p>
   </div>
 
-  <h2>Le projet</h2>
-  <p>
-    Architecture en couches, DTO par opération, validation à l'entrée, exceptions métier dédiées
-    et profils de configuration par environnement. Le code, la documentation complète et une
-    collection Postman de 45 requêtes automatisées sont publics :
-    <a href="https://github.com/Japha-Fomen/biblio1-api">github.com/Japha-Fomen/biblio1-api</a>.
-  </p>
+  <h2><span class="fr">Conception</span><span class="en">Engineering</span></h2>
+  <ul class="fr">
+    <li>Architecture en couches, DTO distinct par opération, validation à l&rsquo;entrée.</li>
+    <li>Gestionnaire d&rsquo;exceptions centralisé&nbsp;: chaque erreur devient un code de statut exact et un corps JSON qui nomme les champs fautifs, sans fuite d&rsquo;information interne.</li>
+    <li>Schéma géré par migrations Flyway versionnées, pour MySQL en développement et PostgreSQL en déploiement.</li>
+    <li>Intégration continue qui compile et teste à chaque poussée, image Docker en deux étapes d&rsquo;environ 200 Mo.</li>
+    <li>Collection Postman de 47 requêtes en huit dossiers, couvrant le parcours nominal, les entrées rejetées, les conflits métier et le scénario complet d&rsquo;emprunt et de retour.</li>
+  </ul>
+  <ul class="en">
+    <li>Layered architecture, one DTO per operation, validation at the boundary.</li>
+    <li>Centralized exception handler: every failure becomes an accurate status code and a JSON body naming the invalid fields, with no internal detail leaking out.</li>
+    <li>Schema managed by versioned Flyway migrations, for MySQL in development and PostgreSQL in deployment.</li>
+    <li>Continuous integration building and testing on every push, two stage Docker image of about 200 MB.</li>
+    <li>Postman collection of 47 requests in eight folders, covering the nominal flow, rejected input, business conflicts and the full borrow and return scenario.</li>
+  </ul>
+
+  <h2><span class="fr">Limites connues</span><span class="en">Known limitations</span></h2>
+  <ul class="fr">
+    <li>Les règles qui dépendent du lien entre l&rsquo;appelant et la ressource visée sont encore en cours d&rsquo;implémentation dans la couche de service. Seule l&rsquo;autorisation par route est en place.</li>
+    <li>La mise à jour automatique des emprunts en retard n&rsquo;est pas encore branchée.</li>
+    <li>Les tests actuels sont une collection Postman. La couverture JUnit est le prochain chantier.</li>
+    <li>Les livres et auteurs visibles sont un jeu de données de démonstration.</li>
+  </ul>
+  <ul class="en">
+    <li>Rules that depend on the relationship between the caller and the target resource are still being implemented in the service layer. Only route level authorization is in place today.</li>
+    <li>Automatic flagging of overdue loans is not wired up yet.</li>
+    <li>Current tests are a Postman collection. JUnit coverage is the next piece of work.</li>
+    <li>The books and authors on display are a demonstration data set.</li>
+  </ul>
+
+  <div class="note">
+    <span class="fr">
+      Service déployé sur Google Cloud Run avec une base PostgreSQL gérée. L&rsquo;instance et la base
+      se mettent en veille après une période d&rsquo;inactivité, donc le premier appel peut prendre
+      jusqu&rsquo;à une minute. Projet d&rsquo;apprentissage construit seul&nbsp;: le modèle en couches est
+      la première étape, la suite prévoit un découpage par domaines puis une architecture en services.
+    </span>
+    <span class="en">
+      Deployed on Google Cloud Run against a managed PostgreSQL database. Both the instance and the
+      database sleep after a period of inactivity, so the first call can take up to a minute. A
+      learning project built alone: the layered model is the first step, with a move to domain
+      oriented packaging and then a service architecture planned next.
+    </span>
+  </div>
 
   <footer>
-    Rhodian Japha Fomen — <a href="https://github.com/Japha-Fomen">github.com/Japha-Fomen</a>
+    Rhodian Japha Fomen ·
+    <a href="https://japha-fomen.github.io">japha-fomen.github.io</a> ·
+    <a href="https://github.com/Japha-Fomen/biblio1-api">github.com/Japha-Fomen/biblio1-api</a>
   </footer>
 
 </main>
+
+<script>
+(function () {
+  var CLE = 'biblio1-langue';
+  var corps = document.body;
+  var bouton = document.getElementById('btn-langue');
+
+  function appliquer(langue) {
+    corps.setAttribute('data-lang', langue);
+    document.documentElement.lang = langue;
+    bouton.textContent = (langue === 'fr') ? 'English' : 'Français';
+    try { localStorage.setItem(CLE, langue); } catch (e) { /* navigation privee */ }
+  }
+
+  var choisie = null;
+  try { choisie = localStorage.getItem(CLE); } catch (e) { /* idem */ }
+
+  if (choisie !== 'fr' && choisie !== 'en') {
+    var nav = (navigator.language || 'fr').toLowerCase();
+    choisie = (nav.indexOf('en') === 0) ? 'en' : 'fr';
+  }
+
+  appliquer(choisie);
+  bouton.addEventListener('click', function () {
+    appliquer(corps.getAttribute('data-lang') === 'fr' ? 'en' : 'fr');
+  });
+})();
+</script>
+
 </body>
 </html>

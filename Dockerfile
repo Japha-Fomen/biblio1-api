@@ -35,4 +35,4 @@ EXPOSE 8080
 
 # Render fournit la variable PORT a l'execution.
 # Le :-8080 sert de valeur par defaut hors Render.
-ENTRYPOINT ["java","-XXMAXRAMPercentage=75","-jar", "app.jar"]
+ENTRYPOINT ["java", "-XX:MaxRAMPercentage=75", "-jar", "app.jar"]
